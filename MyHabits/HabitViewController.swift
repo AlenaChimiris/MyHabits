@@ -13,6 +13,8 @@ class HabitViewController: UIViewController, UICollectionViewDelegate   {
     override func viewDidLoad() {
         super.viewDidLoad()
         let datePicker = UIDatePicker()
+        
+        //тут попыталась сделать обновление даты, но не вышло
         datePicker.addTarget(self, action: #selector(timePicker), for: .valueChanged)
     }
 
@@ -75,12 +77,12 @@ class HabitViewController: UIViewController, UICollectionViewDelegate   {
     }
     
     @IBAction func addButton(_ sender: Any) {
-//        let newHabit = Habit(name:String(),
-//                             date: Date(),
-//                        color: UIColor())
-//        let store = HabitsStore.shared
-//        store.habits.append(newHabit)
-        print("store.habits")
+        let newHabit = Habit(name:String(),
+                             date: Date(),
+                        color: UIColor())
+        let store = HabitsStore.shared
+        store.habits.append(newHabit)
+        print(store.habits)
         dismiss(animated: true, completion: nil)
     }
     

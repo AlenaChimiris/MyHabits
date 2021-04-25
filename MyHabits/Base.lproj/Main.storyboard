@@ -342,7 +342,7 @@
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <state key="normal" title="Сохранить"/>
                                                 <connections>
-                                                    <action selector="addButton:" destination="E2e-Rk-01I" eventType="touchUpInside" id="Mcf-yW-gmF"/>
+                                                    <action selector="addButton:" destination="SLc-Sw-7va" eventType="touchUpInside" id="pzo-9s-jjT"/>
                                                 </connections>
                                             </button>
                                             <connections>
@@ -374,7 +374,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wpt-zM-344" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="E2e-Rk-01I" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2850.7246376811595" y="-198.91304347826087"/>
         </scene>
