@@ -55,11 +55,6 @@ class HabitsViewController: UIViewController, UICollectionViewDelegate  {
     }()
     
     
-//    let habitCollectionViewCell = HabitCollectionViewCell()
-//    let progressCollectionViewCell = ProgressCollectionViewCell()
-    
-    private let cellID = "cellID"
-    
     private func setupCollectionView() {
         let screenSize: CGRect = UIScreen.main.bounds
         let screenWidth = screenSize.width
@@ -82,16 +77,6 @@ class HabitsViewController: UIViewController, UICollectionViewDelegate  {
         
     }
     
-//    @IBAction func addButton(_ newHabit: Any) {
-//        let newHabit = Habit(name: "Выпить стакан воды перед завтраком",
-//                             date: Date(),
-//                             color: .green)
-//        let store = HabitsStore.shared
-//        store.habits.append(newHabit)
-//        print("store.habits")
-//        dismiss(animated: true, completion: nil)
-//    }
-    
 
     private func setupLayout() {
 //        view.addSubview(scrollView)
@@ -110,7 +95,7 @@ class HabitsViewController: UIViewController, UICollectionViewDelegate  {
             collectionView.topAnchor.constraint(equalTo: view.topAnchor,constant: 150),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             
         ]
         
@@ -123,30 +108,30 @@ extension HabitsViewController: UICollectionViewDataSource {
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 
-        return  store.habits.count
+        return  store.habits.count + 1
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.row == 0 {
                 let progressCell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: ProgressCollectionViewCell.self), for: indexPath) as! ProgressCollectionViewCell
 
-        progressCell.contentView.backgroundColor = .white
-        progressCell.contentView.layer.cornerRadius = 4
+        progressCell.backgroundColor = .white
+        progressCell.layer.cornerRadius = 4
     
             return progressCell
         }
     
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: HabitsCollectionViewCell.self), for: indexPath) as! HabitsCollectionViewCell
-        let habit = store.habits[indexPath.row]
+        let habit = store.habits[indexPath.row - 1]
         
         cell.nameLabel.text = habit.name
         cell.nameLabel.textColor = habit.color
         cell.timeLabel.text = habit.dateString
         cell.timeLabel.textColor = .gray
 
-        cell.contentView.backgroundColor = .white
+        cell.backgroundColor = .white
 //        cell.heightAnchor.constraint(equalToConstant: 140)
-        cell.contentView.layer.cornerRadius = 8
+        cell.layer.cornerRadius = 8
         
         return cell
        
