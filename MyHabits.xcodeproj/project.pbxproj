@@ -7,14 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E276BAC25EAC13E009B5A18 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E276BAB25EAC13E009B5A18 /* SceneDelegate.swift */; };
+		1EF75E492622F26C00FAACA8 /* HabitsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF75E482622F26C00FAACA8 /* HabitsViewController.swift */; };
+		920348B425A9F88D00372DD4 /* HabitDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920348B325A9F88D00372DD4 /* HabitDetailsViewController.swift */; };
 		921AFBBA25A3237D00565A16 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 921AFBB925A3237D00565A16 /* AppDelegate.swift */; };
 		921AFBBC25A3237D00565A16 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 921AFBBB25A3237D00565A16 /* ViewController.swift */; };
 		921AFBBF25A3237D00565A16 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 921AFBBD25A3237D00565A16 /* Main.storyboard */; };
 		921AFBC125A3238000565A16 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 921AFBC025A3238000565A16 /* Assets.xcassets */; };
 		921AFBC425A3238000565A16 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 921AFBC225A3238000565A16 /* LaunchScreen.storyboard */; };
+		921AFBCC25A325E600565A16 /* HabitsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 921AFBCB25A325E600565A16 /* HabitsStore.swift */; };
+		921AFBD025A3410700565A16 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 921AFBCF25A3410700565A16 /* InfoViewController.swift */; };
+		92A106CC25A5E652001F21D6 /* HabitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A106CB25A5E652001F21D6 /* HabitViewController.swift */; };
+		92E38F1225A8638B00AB6532 /* ProgressCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E38F1125A8638B00AB6532 /* ProgressCollectionViewCell.swift */; };
+		92E38F1425A863B700AB6532 /* HabitsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E38F1325A863B700AB6532 /* HabitsCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1E276BAB25EAC13E009B5A18 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		1EF75E482622F26C00FAACA8 /* HabitsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsViewController.swift; sourceTree = "<group>"; };
+		920348B325A9F88D00372DD4 /* HabitDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDetailsViewController.swift; sourceTree = "<group>"; };
 		921AFBB625A3237D00565A16 /* MyHabits.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyHabits.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		921AFBB925A3237D00565A16 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		921AFBBB25A3237D00565A16 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -22,6 +33,11 @@
 		921AFBC025A3238000565A16 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		921AFBC325A3238000565A16 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		921AFBC525A3238000565A16 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		921AFBCB25A325E600565A16 /* HabitsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsStore.swift; sourceTree = "<group>"; };
+		921AFBCF25A3410700565A16 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
+		92A106CB25A5E652001F21D6 /* HabitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitViewController.swift; sourceTree = "<group>"; };
+		92E38F1125A8638B00AB6532 /* ProgressCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCollectionViewCell.swift; sourceTree = "<group>"; };
+		92E38F1325A863B700AB6532 /* HabitsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +51,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		920348B525A9F8E700372DD4 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				92E38F1325A863B700AB6532 /* HabitsCollectionViewCell.swift */,
+				92E38F1125A8638B00AB6532 /* ProgressCollectionViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		921AFBAD25A3237D00565A16 = {
 			isa = PBXGroup;
 			children = (
@@ -55,8 +80,15 @@
 			isa = PBXGroup;
 			children = (
 				921AFBB925A3237D00565A16 /* AppDelegate.swift */,
+				1E276BAB25EAC13E009B5A18 /* SceneDelegate.swift */,
 				921AFBBB25A3237D00565A16 /* ViewController.swift */,
 				921AFBBD25A3237D00565A16 /* Main.storyboard */,
+				920348B525A9F8E700372DD4 /* Cell */,
+				92A106CB25A5E652001F21D6 /* HabitViewController.swift */,
+				920348B325A9F88D00372DD4 /* HabitDetailsViewController.swift */,
+				921AFBCB25A325E600565A16 /* HabitsStore.swift */,
+				921AFBCF25A3410700565A16 /* InfoViewController.swift */,
+				1EF75E482622F26C00FAACA8 /* HabitsViewController.swift */,
 				921AFBC025A3238000565A16 /* Assets.xcassets */,
 				921AFBC225A3238000565A16 /* LaunchScreen.storyboard */,
 				921AFBC525A3238000565A16 /* Info.plist */,
@@ -91,7 +123,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1010;
-				LastUpgradeCheck = 1010;
+				LastUpgradeCheck = 1240;
 				ORGANIZATIONNAME = "Алена Чимирис";
 				TargetAttributes = {
 					921AFBB525A3237D00565A16 = {
@@ -135,8 +167,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				921AFBCC25A325E600565A16 /* HabitsStore.swift in Sources */,
+				92A106CC25A5E652001F21D6 /* HabitViewController.swift in Sources */,
 				921AFBBC25A3237D00565A16 /* ViewController.swift in Sources */,
+				1EF75E492622F26C00FAACA8 /* HabitsViewController.swift in Sources */,
+				92E38F1225A8638B00AB6532 /* ProgressCollectionViewCell.swift in Sources */,
 				921AFBBA25A3237D00565A16 /* AppDelegate.swift in Sources */,
+				1E276BAC25EAC13E009B5A18 /* SceneDelegate.swift in Sources */,
+				921AFBD025A3410700565A16 /* InfoViewController.swift in Sources */,
+				920348B425A9F88D00372DD4 /* HabitDetailsViewController.swift in Sources */,
+				92E38F1425A863B700AB6532 /* HabitsCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -188,6 +228,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -213,7 +254,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -249,6 +290,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -268,7 +310,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -292,6 +334,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = NO;
 			};
 			name = Debug;
 		};
@@ -305,6 +348,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = xib.MyHabits;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
