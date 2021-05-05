@@ -12,10 +12,7 @@ class HabitViewController: UIViewController, UICollectionViewDelegate   {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let datePicker = UIDatePicker()
-        
-        //тут попыталась сделать обновление даты, но не вышло
-        datePicker.addTarget(self, action: #selector(timePicker), for: .valueChanged)
+    
     }
 
     let store: HabitsStore = .shared
@@ -32,67 +29,77 @@ class HabitViewController: UIViewController, UICollectionViewDelegate   {
     
     @IBOutlet var nameColor: UILabel!
     
+    @IBOutlet weak var viewColorPicker: UIView! {
+        didSet {
+            viewColorPicker.backgroundColor = .orange
+        }
+    }
     
     @IBAction func showColorPicker(_ sender: Any) {
         let picker = UIColorPickerViewController()
         picker.delegate = self
         self.present(picker, animated: true, completion: nil)
     }
-        
-//    @IBOutlet var colorHabit: UIColorPickerViewController! {
-//        didSet {
-//            let picker = UIColorPickerViewController()
-//            picker.delegate = self
-//            self.present(picker, animated: true, completion: nil)
-//        }
-//    }
     
-    @IBOutlet var timeName: UILabel!
-    
-    
-    @IBOutlet var timerHabit: UILabel! {
-        didSet {
-            timerHabit.text = "Каждый день в " + formatter.string(from: datePicker.date)
-            
-//            timerHabit.translatesAutoresizingMaskIntoConstraints = false
-        }
+    func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {
+        let color = viewController.selectedColor
     }
     
-    let datePicker = UIDatePicker()
+    func colorPickerViewControllerDidSelectColor(_ viewController: UIColorPickerViewController) {
+        let color = viewController.selectedColor
+        viewColorPicker.backgroundColor = color
+    }
     
+    var datePicker = UIDatePicker()
+    
+    @IBOutlet var timeName: UILabel!
+
+    @IBOutlet var timerHabit: UILabel! {
+        didSet {
+            timerHabit.text = "Каждый день в "  + formatter.string(from: datePicker.date)
+//            timerHabit.inputView = datePicker
+        }
+    }
+  
     var formatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm"
+        formatter.dateFormat = .none
         formatter.timeStyle = .short
+        formatter.doesRelativeDateFormatting = true
       return formatter
     }()
     
-    @IBAction func timePicker(_ sender: Any) {
-        
+    @IBAction func timePicker() {
+//        self.timerHabit.text = "Каждый день в " + formatter.string(from: datePicker.date)
+        datePicker.addTarget(self, action: #selector(datePickerValueChange), for: .valueChanged)
     }
     
+    //тут попыталась сделать обновление времени
+    @objc func datePickerValueChange(picker: UIDatePicker) {
+        timerHabit.text = formatter.string(from: picker.date)
+    }
     
     @IBAction func backButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
     
+    //сохранение привычки
     @IBAction func addButton(_ sender: Any) {
+        let habit = HabitViewController()
         let newHabit = Habit(name:String(),
                              date: Date(),
                         color: UIColor())
+        habit.textName.text = newHabit.name
+        habit.nameColor.backgroundColor = newHabit.color
+        habit.datePicker.date = newHabit.date
         let store = HabitsStore.shared
         store.habits.append(newHabit)
         print(store.habits)
         dismiss(animated: true, completion: nil)
     }
     
-    
 }
 
 extension HabitViewController: UIColorPickerViewControllerDelegate {
-    
-//    func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {
-//        self.dismiss(animated: true, completion: nil)
-//    }
     
 }
