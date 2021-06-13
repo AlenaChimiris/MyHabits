@@ -10,46 +10,51 @@
 import UIKit
 
 
-class HabitsViewController: UIViewController, UICollectionViewDelegate  {
+class HabitsViewController: UIViewController, UICollectionViewDelegate, UINavigationControllerDelegate  {
     
-    let store: HabitsStore = .shared
- 
+
+    var detailsVC: HabitDetailsViewController?
+    
+    let habitID = "habitID"
+    let progressID = "progressID"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-         
+        
         setupCollectionView()
         setupLayout()
-//        collectionView.alwaysBounceVertical = true
-//        collectionView.contentInset = .init(top: 22, left: 16, bottom: 22, right: 16)
-//        self.collectionView.backgroundColor = 
-        self.navigationItem.hidesBackButton = true
-
+        collectionView.alwaysBounceVertical = true
+        collectionView.contentInset = .init(top: 22, left: 16, bottom: 22, right: 16)
         
+//        self.navigationItem.hidesBackButton = false
+        self.navigationItem.largeTitleDisplayMode = .always
+        collectionView.reloadData()
+        collectionView.reloadInputViews()
+//        navigationController?.isNavigationBarHidden = false
+        self.navigationController?.delegate = self
+
     }
     
-    var collectionView: UICollectionView = {
-        let layout = UICollectionViewLayout()
+    private lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        
-        collectionView.register(ProgressCollectionViewCell.self, forCellWithReuseIdentifier: String(describing: ProgressCollectionViewCell.self))
-        collectionView.register(HabitsCollectionViewCell.self, forCellWithReuseIdentifier: String(describing: HabitsCollectionViewCell.self))
-        
-        collectionView.backgroundColor = .lightGray
+        collectionView.register(ProgressCollectionViewCell.self, forCellWithReuseIdentifier: progressID)
+        collectionView.register(HabitsCollectionViewCell.self, forCellWithReuseIdentifier: habitID)
+        collectionView.backgroundColor = .systemGray6
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
     
-
+    
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = true
         return scrollView
     }()
-
-    private let contentView: UIView = {
+    
+    private lazy var contentView: UIView = {
         let view = UIView()
         return view
     }()
@@ -63,8 +68,9 @@ class HabitsViewController: UIViewController, UICollectionViewDelegate  {
         collectionView.frame = CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight)
         collectionView.dataSource = self
         collectionView.delegate = self
-//        collectionView.isHidden = store.habits.isEmpty
-//        collectionView.reloadData()
+        //        collectionView.isHidden = store.habits.isEmpty
+        collectionView.reloadData()
+        collectionView.reloadInputViews()
     }
     
     override func viewWillLayoutSubviews() {
@@ -72,27 +78,16 @@ class HabitsViewController: UIViewController, UICollectionViewDelegate  {
         
         scrollView.frame = CGRect(x: 0, y: 150, width: view.bounds.width, height: view.bounds.height)
         contentView.frame = CGRect(x: 0, y: 0, width: scrollView.bounds.width, height: scrollView.bounds.height)
-
-//        scrollView.contentSize = contentView 
         
     }
     
-
+    
     private func setupLayout() {
-//        view.addSubview(scrollView)
-//        view.addSubview(contentView)
         view.addSubview(collectionView)
-
-        
         
         let constains = [
-        
-//            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-//            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-//            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor,constant: 150),
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 150),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -102,79 +97,101 @@ class HabitsViewController: UIViewController, UICollectionViewDelegate  {
         NSLayoutConstraint.activate(constains)
     }
     
+    
 }
 
 extension HabitsViewController: UICollectionViewDataSource {
     
-    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-
-        return  store.habits.count + 1
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 2
     }
     
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.row == 0 {
-                let progressCell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: ProgressCollectionViewCell.self), for: indexPath) as! ProgressCollectionViewCell
-
-        progressCell.backgroundColor = .white
-        progressCell.layer.cornerRadius = 4
-    
-            return progressCell
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        switch section {
+        case 0:
+            return 1
+        case 1:
+            return HabitsStore.shared.habits.count
+        default:
+            return 0
         }
+    }
     
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: HabitsCollectionViewCell.self), for: indexPath) as! HabitsCollectionViewCell
-        let habit = store.habits[indexPath.row - 1]
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: habitID, for: indexPath) as! HabitsCollectionViewCell
+        if indexPath.section == 1 {
+            
+            let habit = HabitsStore.shared.habits[indexPath.item]
+            
+            cell.habit = habit
+            cell.habitTappedCompletion = {
+                HabitsStore.shared.track(habit)
+            }
+            
+            cell.nameLabel.text = habit.name
+            cell.nameLabel.textColor = habit.color
+            cell.timeLabel.text = habit.dateString
+            cell.timeLabel.textColor = .gray
+            cell.colorView.backgroundColor = habit.color
+            cell.countLabel.text = "Подряд:\(habit.trackDates.count)"
+            
+            return cell
+        }
         
-        cell.nameLabel.text = habit.name
-        cell.nameLabel.textColor = habit.color
-        cell.timeLabel.text = habit.dateString
-        cell.timeLabel.textColor = .gray
-
-        cell.backgroundColor = .white
-//        cell.heightAnchor.constraint(equalToConstant: 140)
-        cell.layer.cornerRadius = 8
+        let progressCell = collectionView.dequeueReusableCell(withReuseIdentifier: progressID, for: indexPath) as! ProgressCollectionViewCell
+        if indexPath.section == 0 {
+            let progress = HabitsStore.shared.todayProgress
+            progressCell.progress = progress
         
+            return progressCell
+        }        
         return cell
-       
     }
 }
 
-
-extension HabitViewController: UICollectionViewDelegateFlowLayout{
+extension HabitsViewController: UICollectionViewDelegateFlowLayout{
     
-        private var baseInsets: CGFloat {return 5}
-
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-
+        
         let width = collectionView.bounds.width - collectionView.contentInset.left - collectionView.contentInset.right
-        let height: CGFloat = indexPath.row == 0 ? 60 : 140
-
+        let height: CGFloat = indexPath.section == 0 ? 60 : 130
+        
         return   CGSize(width: width, height: height)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        if section == 0 {
+            return UIEdgeInsets(top: 22, left: 16, bottom: 0, right: 16)
+        } else  {
+            return UIEdgeInsets(top: 18, left: 16, bottom: 12, right: 16)
+        }
+}
+    
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return .zero
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(#function, "сработала")
+          if indexPath.section == 1 {
+            let habit = HabitsStore.shared.habits[indexPath.item]
+            detailsVC = HabitDetailsViewController(habit: habit)
+            self.navigationController?.pushViewController(detailsVC!, animated: true)
+            self.dismiss(animated: true, completion: nil)
+            print("detailsVC")
+
+        }
+
+        if navigationController == nil {
+            print ("nil")
+        }
+     }
 }
 
-//        let width: CGFloat = (collectionView.frame.size.width - baseInsets*5)
 
-//        return CGSize(width: 140, height: baseInsets)
-//    }
-//
-//        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-//
-//            return UIEdgeInsets(top: baseInsets, left: baseInsets, bottom: baseInsets, right: baseInsets)
-//        }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-//
-//        return baseInsets
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-//
-//        return baseInsets
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-//
-//        return CGSize(width: 140, height: baseInsets)
-//    }
-//
-//}

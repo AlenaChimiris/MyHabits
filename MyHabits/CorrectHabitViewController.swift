@@ -1,27 +1,54 @@
 //
-//  HabitViewController.swift
+//  CorrectHabitViewController.swift
 //  MyHabits
 //
-//  Created by Алена Чимирис on 06.01.2021.
+//  Created by Алёна Чимирис on 23.05.2021.
 //  Copyright © 2021 Алена Чимирис. All rights reserved.
 //
 
 import UIKit
 
 
-class HabitViewController: UIViewController, UICollectionViewDelegate   {
-    
+class  CorrectHabitViewController: UIViewController,UICollectionViewDelegate {
     
     let datePicker = UIDatePicker()
+    
+    //код для экрана Details по кнопке Править
+    
+    public var habit: Habit
+    
+    init(habit: Habit) {
+        self.habit = habit
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .white
         datePicker.addTarget(self, action: #selector(dateChanged), for: .valueChanged)
         datePicker.datePickerMode = .countDownTimer
         datePicker.backgroundColor = .white
         textTimePicker.inputView = datePicker
+        textName.text = habit.name
+        textName.textColor = .systemBlue
+        
+        let navBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 44))
+        view.addSubview(navBar)
+        let barItem = UINavigationItem(title: "Править")
+        let saveButtonItem = UIBarButtonItem(title: "Сохранить", style: .done, target: self, action: #selector(saveHabit))
+        barItem.rightBarButtonItem = saveButtonItem
+        let cancelButtonItem = UIBarButtonItem(title: "Отменить", style: .plain, target: self, action: #selector(backButton))
+        barItem.leftBarButtonItem = cancelButtonItem
+        navBar.setItems([barItem], animated: false)
+        cancelButtonItem.tintColor = .purple
+        saveButtonItem.tintColor = .purple
+        
         
         let tap = UITapGestureRecognizer(target:self, action: #selector(showColorPicker))
         viewColorPicker.addGestureRecognizer(tap)
@@ -98,6 +125,15 @@ class HabitViewController: UIViewController, UICollectionViewDelegate   {
         return textTimePicker
     }()
     
+    var delButtonHabit: UIButton = {
+        let dBh = UIButton()
+        dBh.translatesAutoresizingMaskIntoConstraints = false
+        dBh.setTitle("Удалить привычку", for: .normal)
+        dBh.setTitleColor(.red, for: .normal)
+        dBh.addTarget(self, action: #selector(showAlert(_:)), for: .touchUpInside)
+        return dBh
+    }()
+    
     private func setupLayout() {
         view.addSubview(nameHabit)
         view.addSubview(textName)
@@ -106,10 +142,11 @@ class HabitViewController: UIViewController, UICollectionViewDelegate   {
         view.addSubview(timeName)
         view.addSubview(timerHabit)
         view.addSubview(textTimePicker)
+        view.addSubview(delButtonHabit)
         
         let constains = [
             
-            nameHabit.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            nameHabit.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 60),
             nameHabit.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             nameHabit.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             
@@ -135,13 +172,32 @@ class HabitViewController: UIViewController, UICollectionViewDelegate   {
             
             
             textTimePicker.topAnchor.constraint(equalTo: timerHabit.topAnchor),
-            textTimePicker.leadingAnchor.constraint(equalTo: timerHabit.trailingAnchor, constant: 3)
+            textTimePicker.leadingAnchor.constraint(equalTo: timerHabit.trailingAnchor, constant: 3),
+            
+            delButtonHabit.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            delButtonHabit.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10)
             
         ]
         
         NSLayoutConstraint.activate(constains)
         
         textName.becomeFirstResponder()
+    }
+    
+    
+    //удаление привычки из списка
+    @objc  func showAlert(_ sender: Any) {
+        let alertController = UIAlertController(title: "Удалить пост?", message: "Вы хотите удалить привычку \(habit.name)?", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Отмена", style: .default) { _ in
+            print("Отмена")
+        }
+        let deleteAction = UIAlertAction(title: "Удалить", style: .destructive) { _ in
+            
+            print("Удалить")
+        }
+        alertController.addAction(cancelAction)
+        alertController.addAction(deleteAction)
+        self.present(alertController, animated: true, completion: nil)
     }
     
     
@@ -177,13 +233,8 @@ class HabitViewController: UIViewController, UICollectionViewDelegate   {
         textTimePicker.text = formatter.string(from: datePicker.date)
     }
     
-    @IBAction func backButton(_ sender: Any) {
+    @objc func backButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
-    }
-    
-    //сохранение привычки
-    @IBAction func addButton(_ sender: Any) {
-        saveHabit()
     }
     
     @objc func saveHabit() {
@@ -196,8 +247,12 @@ class HabitViewController: UIViewController, UICollectionViewDelegate   {
         habit.textTimePicker.text = newHabit.dateString
         let store = HabitsStore.shared
         store.habits.append(newHabit)
-        print(store.habits)
         reloadInputViews()
+        print(store.habits)
+        
+        if let index = HabitsStore.shared.habits.firstIndex(where: { $0 == self.habit }) {
+            HabitsStore.shared.habits[index] = newHabit
+        }
         //        store.habits.removeAll()
         //        print(store.habits)
         dismiss(animated: true, completion: nil)
@@ -213,10 +268,11 @@ class HabitViewController: UIViewController, UICollectionViewDelegate   {
     
 }
 
-extension HabitViewController: UIColorPickerViewControllerDelegate {
+extension CorrectHabitViewController: UIColorPickerViewControllerDelegate {
     
 }
 
-extension HabitViewController: UIGestureRecognizerDelegate {
+extension CorrectHabitViewController: UIGestureRecognizerDelegate {
     
 }
+
