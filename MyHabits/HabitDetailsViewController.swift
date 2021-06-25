@@ -10,21 +10,6 @@ import UIKit
 
 class HabitDetailsViewController: UIViewController {
     
-    private lazy var correctHabitVC = CorrectHabitViewController(habit: habit)
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupTableView()
-        setupLayout()
-        title = "Править"
-        
-        navigationItem.largeTitleDisplayMode = .never
-    
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Править", style: .plain, target: self, action: #selector(tapCorrect))
-        navigationItem.rightBarButtonItem?.tintColor = .purple
-        navigationItem.backBarButtonItem?.tintColor = .purple
-    }
-    
     let habit: Habit
     init(habit: Habit) {
         self.habit = habit
@@ -41,11 +26,10 @@ class HabitDetailsViewController: UIViewController {
         let activeLabel = UILabel()
         activeLabel.textColor = .lightGray
         activeLabel.text = "Активность"
-        activeLabel.font = UIFont.systemFont(ofSize: 12)
+        activeLabel.font = UIFont.systemFont(ofSize: 16)
         activeLabel.translatesAutoresizingMaskIntoConstraints = false
         return activeLabel
     }()
-    
     
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -53,6 +37,38 @@ class HabitDetailsViewController: UIViewController {
         tableView.backgroundColor = .systemGray6
         return tableView
     }()
+    
+    
+    @IBAction func backButton(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+        
+    }
+    
+    
+    @objc func tapCorrect() {
+        
+        //переход на экран редактирования привычки
+        let correctHabitVC = HabitViewController(habit: habit, correctVC: true)
+        correctHabitVC.modalPresentationStyle = .formSheet
+        present(correctHabitVC, animated: false, completion: nil)
+        
+    }
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupTableView()
+        setupLayout()
+        title = habit.name
+        
+        view.backgroundColor = .white
+        navigationItem.largeTitleDisplayMode = .never
+        navigationController?.navigationBar.tintColor = .purple
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Править", style: .plain, target: self, action: #selector(tapCorrect))
+        navigationItem.rightBarButtonItem?.tintColor = .purple
+        navigationItem.backBarButtonItem?.tintColor = .purple
+    }
     
     private func setupTableView() {
         tableView.dataSource = self
@@ -62,41 +78,32 @@ class HabitDetailsViewController: UIViewController {
     }
     
     
-    @IBAction func backButton(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
-        
-    }
-    
     private func setupLayout() {
+        tableView.addSubview(activeLabel)
         view.addSubview(tableView)
-        view.addSubview(activeLabel)
         
         view.backgroundColor = .white
         
         let constraints = [
             
-            activeLabel.topAnchor.constraint(equalTo: view.topAnchor,constant: 50),
-            activeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            activeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            activeLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 12),
+            activeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
+            activeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
             
-            tableView.topAnchor.constraint(equalTo: activeLabel.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
             
         ]
         
         NSLayoutConstraint.activate(constraints)
     }
     
-    
-    @objc func tapCorrect() {
-        //переход на экран редактирования привычки
-        navigationController?.present(correctHabitVC, animated: true, completion: nil)
-    }
 }
 
 extension HabitDetailsViewController: UITableViewDelegate {
+    
 }
 
 extension HabitDetailsViewController: UITableViewDataSource {
@@ -107,11 +114,13 @@ extension HabitDetailsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell: HabitDetailsTableCell = tableView.dequeueReusableCell(withIdentifier: cellID) as! HabitDetailsTableCell
+        let dates = HabitsStore.shared.dates
+        cell.textLabel?.text = HabitsStore.shared.trackDateString(forIndex: dates.count - 1 - indexPath.item)
         
-        cell.textLabel?.text = HabitsStore.shared.trackDateString(forIndex: HabitsStore.shared.dates.count - 1 - indexPath.item)
-        
-        if HabitsStore.shared.habit(habit, isTrackedIn: HabitsStore.shared.dates[HabitsStore.shared.dates.count - 1 - indexPath.item]) == true {
+        if HabitsStore.shared.habit(habit, isTrackedIn: dates[dates.count - 1 - indexPath.item]) == true {
             cell.doneHabitMark.isHidden = false
+        } else {
+            cell.doneHabitMark.isHidden = true
         }
         
         return cell

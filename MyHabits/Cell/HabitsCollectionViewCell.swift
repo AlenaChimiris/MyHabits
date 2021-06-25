@@ -10,8 +10,10 @@ import UIKit
 
 class HabitsCollectionViewCell: UICollectionViewCell {
     
-    
     let habitCell = HabitsStore.shared.habits
+    
+    var habitVC: HabitViewController?
+
     
     var habitTappedCompletion: (() -> Void)?
     
@@ -20,7 +22,7 @@ class HabitsCollectionViewCell: UICollectionViewCell {
             nameLabel.text = habit?.name
             colorView.backgroundColor = habit?.color
             timeLabel.text = habit?.dateString
-            countLabel.isEnabled = ((habit?.isAlreadyTakenToday) != nil)
+            countLabel.text = ("Подряд: \(habit!.trackDates.count)")
         }
     }
     
@@ -69,6 +71,50 @@ class HabitsCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+       setupLayout()
+        
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("oops")
+    }
+    
+    
+    internal func configure(habitVC: HabitViewController) {
+        self.habitVC = habitVC
+        
+        nameLabel.text = habitVC.textName.text
+        colorView.backgroundColor = habitVC.viewColorPicker.backgroundColor
+        timeLabel.text = habitVC.textTimePicker.text
+        countLabel.text = ("Подряд: \(habit!.trackDates.count)")
+       
+    }
+    
+    @objc func tap() {
+        
+        // Проверяем что habit не nil
+        guard let habit = self.habit else { return }
+        // Проверяем, что привычка не была затрекана
+        guard !habit.isAlreadyTakenToday else { return }
+        // трекаем привычку
+        HabitsStore.shared.track(habit)
+        
+        let animator = UIViewPropertyAnimator(duration: 0.8, curve: .linear) {
+        
+            self.colorView.layer.backgroundColor = UIColor.orange.cgColor
+            self.doneHabitMark.isHidden = false
+            self.contentView.layoutIfNeeded()
+            self.contentView.reloadInputViews()
+            
+        }
+        animator.startAnimation()
+        
+    }
+    
+
+    
+    private func setupLayout() {
         contentView.backgroundColor = .white
         contentView.layer.cornerRadius = 8
         addSubview(nameLabel)
@@ -109,36 +155,6 @@ class HabitsCollectionViewCell: UICollectionViewCell {
         ]
         
         NSLayoutConstraint.activate(constrains)
-        
-    }
-    
-    @objc func tap() {
-        
-        // Проверяем что habit не nil
-        guard let habit = self.habit else { return }
-        // Проверяем, что привычка не была затрекана
-        guard !habit.isAlreadyTakenToday else { return }
-        // трекаем привычку
-        HabitsStore.shared.track(habit)
-        // увеличиваем счётчик
-        
-//                    self.count += 1
-        
-        let animator = UIViewPropertyAnimator(duration: 0.5, curve: .linear) {
-            
-            //            self.countLabel.text = "Подряд:" + " " + String(self.count)
-            
-            self.colorView.layer.backgroundColor = UIColor.orange.cgColor
-            self.doneHabitMark.isHidden = false
-            self.contentView.layoutIfNeeded()
-            
-        }
-        animator.startAnimation()
-        
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("oops")
     }
     
 }

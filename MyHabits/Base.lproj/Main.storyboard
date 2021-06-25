@@ -4,7 +4,6 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -12,80 +11,25 @@
         <scene sceneID="lpf-cB-jyP">
             <objects>
                 <viewController wantsFullScreenLayout="YES" id="bwL-5U-9BJ" customClass="InfoViewController" customModule="MyHabits" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="CUY-Rb-Sx8" customClass="UITextView">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jyj-uv-78v">
-                                <rect key="frame" x="0.0" y="44" width="414" height="769"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Привычка за 21 день " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JUN-fF-dLZ">
-                                        <rect key="frame" x="16" y="22" width="304" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" id="eik-iO-aOG">
-                                        <rect key="frame" x="16" y="64" width="354" height="663"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <string key="text">    Прохождение этапов, за которые за 21 день вырабатывается привычка, подчиняется следующему алгоритму:
-
-    Провести 1 день без обращения к старым привычкам, стараться вести себя так, как будто цель, загаданная в перспективу, находится на расстоянии шага.
-
-    Выдержать 2 дня в прежнем состоянии самоконтроля.
-
-    Отметить в дневнике первую неделю изменений и подвести первые итоги — что оказалось тяжело, что — легче, с чем еще предстоит серьезно бороться.
-
-    Поздравить себя с прохождением первого серьезного порога в 21 день. За это время отказ от дурных наклонностей уже примет форму осознанного преодоления и человек сможет больше работать в сторону принятия положительных качеств.
-
-    Держать планку 40 дней. Практикующий методику уже чувствует себя освободившимся от прошлого негатива и двигается в нужном направлении с хорошей динамикой.
-
-    На 90-й день соблюдения техники все лишнее из «прошлой жизни» перестает напоминать о себе, и человек, оглянувшись назад, осознает себя полностью обновившимся.
-
-    Источник: psychbook.ru
-</string>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                    </textView>
-                                </subviews>
-                            </scrollView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="r9b-EH-GCN"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    </view>
                     <tabBarItem key="tabBarItem" title="Информация" image="info.circle" catalog="system" id="3wo-U9-Hee"/>
-                    <navigationItem key="navigationItem" title="Информация" largeTitleDisplayMode="never" id="lGt-R7-TA8"/>
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="dzZ-Qb-KgM"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <outlet property="lebelView" destination="JUN-fF-dLZ" id="qm1-11-Iwz"/>
-                        <outlet property="textView" destination="eik-iO-aOG" id="Ldo-oD-JwF"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u8n-ug-cgk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2324.6376811594205" y="570.6521739130435"/>
         </scene>
-        <!--Сегодня-->
+        <!--Привычки-->
         <scene sceneID="IUH-Dz-pdp">
             <objects>
                 <viewController id="5jX-Wv-2AH" customClass="HabitsViewController" customModule="MyHabits" customModuleProvider="target" sceneMemberID="viewController">
-                    <navigationBar key="view" contentMode="scaleToFill" largeTitles="YES" id="Tw1-Yb-mV0">
+                    <navigationBar key="view" contentMode="scaleToFill" id="Tw1-Yb-mV0">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </navigationBar>
                     <tabBarItem key="tabBarItem" title="Привычки" image="rectangle.grid.1x2.fill" catalog="system" id="EXa-Xk-CPa"/>
-                    <navigationItem key="navigationItem" title="Сегодня" leftItemsSupplementBackButton="YES" largeTitleDisplayMode="always" id="R7f-op-C7H">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="dHG-9b-hCz">
-                            <color key="tintColor" systemColor="systemPurpleColor"/>
-                            <connections>
-                                <segue destination="BSW-dS-RJ5" kind="presentation" id="fQy-q7-i9i"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="always" id="R7f-op-C7H"/>
                     <connections>
                         <segue destination="PFm-W1-Vnw" kind="push" id="D9s-KX-Kbi"/>
                     </connections>
@@ -130,30 +74,17 @@
             </objects>
             <point key="canvasLocation" x="4038" y="593"/>
         </scene>
-        <!--Создать-->
+        <!--Habit View Controller-->
         <scene sceneID="Pcs-ZR-96X">
             <objects>
                 <viewController storyboardIdentifier="add_edit" useStoryboardIdentifierAsRestorationIdentifier="YES" id="SLc-Sw-7va" customClass="HabitViewController" customModule="MyHabits" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="IMw-pt-Jbz">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="wEH-Nu-krU"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Создать" largeTitleDisplayMode="never" id="i9F-X6-jLG">
-                        <barButtonItem key="leftBarButtonItem" title="Отмена" id="njE-wN-a3s">
-                            <color key="tintColor" systemColor="systemPurpleColor"/>
-                            <connections>
-                                <action selector="backButton:" destination="SLc-Sw-7va" id="lJq-3u-09Z"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Сохранить" style="done" id="omJ-HD-vgW">
-                            <color key="tintColor" systemColor="systemPurpleColor"/>
-                            <connections>
-                                <action selector="addButton:" destination="SLc-Sw-7va" id="OVO-Rt-3tv"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="i9F-X6-jLG"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wpt-zM-344" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="4o8-L5-Qme"/>
@@ -168,11 +99,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="MPn-ga-nUR">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </navigationBar>
-                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="AvG-ph-JqO">
-                        <autoresizingMask key="autoresizingMask"/>
-                    </toolbar>
                     <connections>
                         <segue destination="5jX-Wv-2AH" kind="relationship" relationship="rootViewController" id="XcU-MO-3LG"/>
                     </connections>
@@ -189,7 +116,6 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="dHV-2z-2Sw">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </navigationBar>
                     <connections>
                         <segue destination="bwL-5U-9BJ" kind="relationship" relationship="rootViewController" id="ZrY-hJ-rEg"/>
@@ -220,9 +146,9 @@
         <!--Navigation Controller-->
         <scene sceneID="dca-KC-54I">
             <objects>
-                <navigationController id="BSW-dS-RJ5" sceneMemberID="viewController">
+                <navigationController navigationBarHidden="YES" id="BSW-dS-RJ5" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="Z3t-u4-4wA"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Nrb-FO-p3m">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -237,8 +163,5 @@
     <resources>
         <image name="info.circle" catalog="system" width="128" height="121"/>
         <image name="rectangle.grid.1x2.fill" catalog="system" width="128" height="101"/>
-        <systemColor name="systemPurpleColor">
-            <color red="0.68627450980392157" green="0.32156862745098042" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
     </resources>
 </document>

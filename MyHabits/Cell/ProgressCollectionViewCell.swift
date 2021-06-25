@@ -11,7 +11,6 @@ import UIKit
 
 class ProgressCollectionViewCell: UICollectionViewCell {
     
-    
     var progress: Float?
     
     var textLabel: UILabel = {
@@ -45,6 +44,14 @@ class ProgressCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupLayout()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("oops")
+    }
+    
+    private func setupLayout(){
         contentView.backgroundColor = .white
         contentView.layer.cornerRadius = 4
         addSubview(textLabel)
@@ -68,10 +75,6 @@ class ProgressCollectionViewCell: UICollectionViewCell {
         
         NSLayoutConstraint.activate(constrains)
         
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("oops")
     }
     
 }

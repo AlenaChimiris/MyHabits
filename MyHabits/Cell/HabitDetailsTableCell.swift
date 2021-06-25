@@ -20,41 +20,16 @@ class HabitDetailsTableCell: UITableViewCell {
     var doneHabitMark: UILabel = {
         let doneHabitMark = UILabel()
         doneHabitMark.textColor = .purple
-        doneHabitMark.text = "yes"
-        //        doneHabitMark.textAlignment = .right
+        doneHabitMark.text = "✓"
+        doneHabitMark.textAlignment = .right
+        doneHabitMark.isHidden = true
         doneHabitMark.translatesAutoresizingMaskIntoConstraints = false
         return doneHabitMark
     }()
     
-    
-    
-    func setupViews() {
-        addSubview(trackDay)
-        addSubview(doneHabitMark)
-        
-        
-        let constrains = [
-            
-            trackDay.topAnchor.constraint(equalTo: contentView.topAnchor),
-            trackDay.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 30),
-            trackDay.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -16),
-            //            trackDay.heightAnchor.constraint(equalToConstant: 30),
-            trackDay.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            
-            doneHabitMark.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 25),
-            doneHabitMark.leadingAnchor.constraint(equalTo:  contentView.leadingAnchor,constant: 30),
-            doneHabitMark.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -12),
-            doneHabitMark.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -30)
-            
-        ]
-        
-        NSLayoutConstraint.activate(constrains)
-        
-    }
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupViews()
+        setupLayout()
     }
     
     
@@ -62,4 +37,29 @@ class HabitDetailsTableCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    
+    private func setupLayout(){
+        contentView.addSubview(trackDay)
+        contentView.addSubview(doneHabitMark)
+        
+        let constrains = [
+            
+            trackDay.topAnchor.constraint(equalTo: contentView.topAnchor),
+            trackDay.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            trackDay.heightAnchor.constraint(equalToConstant: 40),
+            trackDay.widthAnchor.constraint(equalToConstant: 50),
+            trackDay.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            
+            doneHabitMark.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
+            doneHabitMark.leadingAnchor.constraint(equalTo: trackDay.leadingAnchor, constant: 30),
+            doneHabitMark.widthAnchor.constraint(equalToConstant: 15),
+            doneHabitMark.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            
+        ]
+        
+        NSLayoutConstraint.activate(constrains)
+        
+    }
+    
 }
