@@ -45,17 +45,16 @@ class HabitDetailsTableCell: UITableViewCell {
         
         let constrains = [
             
-            trackDay.topAnchor.constraint(equalTo: contentView.topAnchor),
+            trackDay.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             trackDay.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            trackDay.heightAnchor.constraint(equalToConstant: 40),
-            trackDay.widthAnchor.constraint(equalToConstant: 50),
-            trackDay.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            trackDay.heightAnchor.constraint(equalToConstant: 30),
+            trackDay.widthAnchor.constraint(equalToConstant: 40),
+
             
             doneHabitMark.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-            doneHabitMark.leadingAnchor.constraint(equalTo: trackDay.leadingAnchor, constant: 30),
-            doneHabitMark.widthAnchor.constraint(equalToConstant: 15),
-            doneHabitMark.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            
+            doneHabitMark.leadingAnchor.constraint(equalTo: trackDay.trailingAnchor),
+            doneHabitMark.heightAnchor.constraint(equalToConstant: 10),
+            doneHabitMark.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
         ]
         
         NSLayoutConstraint.activate(constrains)

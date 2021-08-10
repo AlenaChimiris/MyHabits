@@ -9,10 +9,15 @@
 
 import UIKit
 
+protocol CollectionDelegate: class {
+    func reloadCV()
+    
+}
+
 
 class HabitsViewController: UIViewController, UICollectionViewDelegate, UINavigationControllerDelegate  {
     
-    
+    var delegate: CollectionDelegate?
     var detailsVC: HabitDetailsViewController?
     
     let habitID = "habitID"
@@ -52,8 +57,6 @@ class HabitsViewController: UIViewController, UICollectionViewDelegate, UINaviga
         collectionView.frame = CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight)
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.reloadData()
-        collectionView.reloadInputViews()
     }
     
     override func viewWillLayoutSubviews() {
@@ -62,7 +65,6 @@ class HabitsViewController: UIViewController, UICollectionViewDelegate, UINaviga
         scrollView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height)
         contentView.frame = CGRect(x: 0, y: 0, width: scrollView.bounds.width, height: scrollView.bounds.height)
         
-        collectionView.reloadData()
         
     }
     
@@ -72,15 +74,15 @@ class HabitsViewController: UIViewController, UICollectionViewDelegate, UINaviga
         setupCollectionView()
         setupLayout()
         collectionView.alwaysBounceVertical = true
-        collectionView.contentInset = .init(top: 22, left: 16, bottom: 22, right: 16)
-        
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showHabitVC))
         navigationController?.navigationBar.prefersLargeTitles = true
+        view.backgroundColor = .white
         navigationController?.navigationBar.backgroundColor = .white
         navigationItem.title = "Сегодня"
         navigationItem.largeTitleDisplayMode = .always
         navigationController?.delegate = self
+        navigationItem.rightBarButtonItem?.tintColor = .purple
         
     }
     
@@ -103,7 +105,7 @@ class HabitsViewController: UIViewController, UICollectionViewDelegate, UINaviga
         
         let habitVC = HabitViewController(habit: Habit(name: "", date: Date(), color: .orange), correctVC: false)
         self.navigationController?.present(habitVC, animated: true)
-        
+        habitVC.delegate = self
     }
     
     
@@ -134,10 +136,11 @@ extension HabitsViewController: UICollectionViewDataSource {
             let habit = HabitsStore.shared.habits[indexPath.item]
             
             cell.habit = habit
+            cell.habitDelegate = self
             cell.habitTappedCompletion = {
                 HabitsStore.shared.track(habit)
             }
-        
+            
             cell.nameLabel.text = habit.name
             cell.nameLabel.textColor = habit.color
             cell.timeLabel.text = habit.dateString
@@ -145,13 +148,16 @@ extension HabitsViewController: UICollectionViewDataSource {
             cell.colorView.backgroundColor = habit.color
             cell.countLabel.text = "Подряд:\(habit.trackDates.count)"
             
+            
             return cell
         }
         
         let progressCell = collectionView.dequeueReusableCell(withReuseIdentifier: progressID, for: indexPath) as! ProgressCollectionViewCell
         if indexPath.section == 0 {
             let progress = HabitsStore.shared.todayProgress
-            progressCell.progress = progress
+            
+            progressCell.progressView.setProgress(progress, animated: true)
+            progressCell.progressLabel.text = "\(Int(progress * 100))%"
             
             return progressCell
         }        
@@ -163,7 +169,7 @@ extension HabitsViewController: UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let width = collectionView.bounds.width - collectionView.contentInset.left - collectionView.contentInset.right
+        let width = collectionView.bounds.width - 32
         let height: CGFloat = indexPath.section == 0 ? 60 : 130
         
         return   CGSize(width: width, height: height)
@@ -172,8 +178,10 @@ extension HabitsViewController: UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         if section == 0 {
             return UIEdgeInsets(top: 22, left: 16, bottom: 0, right: 16)
-        } else  {
+        } else if section == 1 {
             return UIEdgeInsets(top: 18, left: 16, bottom: 12, right: 16)
+        } else  {
+            return UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 16)
         }
     }
     
@@ -194,7 +202,6 @@ extension HabitsViewController: UICollectionViewDelegateFlowLayout{
             self.navigationController?.pushViewController(detailsVC!, animated: true)
             self.dismiss(animated: true, completion: nil)
             print("detailsVC")
-            
         }
         
         if navigationController == nil {
@@ -202,5 +209,15 @@ extension HabitsViewController: UICollectionViewDelegateFlowLayout{
         }
     }
 }
+
+
+extension HabitsViewController: CollectionDelegate {
+    func reloadCV() {
+        collectionView.reloadData()
+        collectionView.reloadInputViews()
+        print("Вызвался delegate")
+    }
+}
+
 
 

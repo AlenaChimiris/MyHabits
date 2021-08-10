@@ -12,8 +12,9 @@ class HabitsCollectionViewCell: UICollectionViewCell {
     
     let habitCell = HabitsStore.shared.habits
     
+    weak var habitDelegate: CollectionDelegate?
     var habitVC: HabitViewController?
-
+    
     
     var habitTappedCompletion: (() -> Void)?
     
@@ -72,7 +73,7 @@ class HabitsCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-       setupLayout()
+        setupLayout()
         
     }
     
@@ -88,7 +89,7 @@ class HabitsCollectionViewCell: UICollectionViewCell {
         colorView.backgroundColor = habitVC.viewColorPicker.backgroundColor
         timeLabel.text = habitVC.textTimePicker.text
         countLabel.text = ("Подряд: \(habit!.trackDates.count)")
-       
+        
     }
     
     @objc func tap() {
@@ -100,19 +101,18 @@ class HabitsCollectionViewCell: UICollectionViewCell {
         // трекаем привычку
         HabitsStore.shared.track(habit)
         
-        let animator = UIViewPropertyAnimator(duration: 0.8, curve: .linear) {
         
+        let animator = UIViewPropertyAnimator(duration: 0.8, curve: .linear) {
+            
             self.colorView.layer.backgroundColor = UIColor.orange.cgColor
             self.doneHabitMark.isHidden = false
             self.contentView.layoutIfNeeded()
-            self.contentView.reloadInputViews()
-            
+            self.habitDelegate?.reloadCV()
         }
         animator.startAnimation()
-        
     }
     
-
+    
     
     private func setupLayout() {
         contentView.backgroundColor = .white
@@ -140,7 +140,6 @@ class HabitsCollectionViewCell: UICollectionViewCell {
             countLabel.topAnchor.constraint(equalTo: timeLabel.bottomAnchor,constant: 20),
             countLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 16),
             countLabel.heightAnchor.constraint(equalToConstant: 20),
-            countLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
             colorView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 40),
             colorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
@@ -149,8 +148,8 @@ class HabitsCollectionViewCell: UICollectionViewCell {
             
             doneHabitMark.centerYAnchor.constraint(equalTo: colorView.centerYAnchor),
             doneHabitMark.centerXAnchor.constraint(equalTo: colorView.centerXAnchor),
-            doneHabitMark.widthAnchor.constraint(equalToConstant: 10),
-            doneHabitMark.heightAnchor.constraint(equalToConstant: 10),
+            doneHabitMark.widthAnchor.constraint(equalToConstant: 15),
+            doneHabitMark.heightAnchor.constraint(equalToConstant: 15)
             
         ]
         

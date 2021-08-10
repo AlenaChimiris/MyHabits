@@ -11,6 +11,9 @@ import UIKit
 
 class HabitViewController: UIViewController, UICollectionViewDelegate   {
     
+    
+    var delegate: CollectionDelegate?
+    
     let datePicker = UIDatePicker()
     
     var nameHabit: UILabel = {
@@ -108,7 +111,7 @@ class HabitViewController: UIViewController, UICollectionViewDelegate   {
     }
     
     func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {
-        let color = viewController.selectedColor
+        let _ = viewController.selectedColor
     }
     
     func colorPickerViewControllerDidSelectColor(_ viewController: UIColorPickerViewController) {
@@ -136,6 +139,7 @@ class HabitViewController: UIViewController, UICollectionViewDelegate   {
         dismiss(animated: true, completion: nil)
     }
     
+    //сохранение новой привычки
     @objc func saveHabit(sender: Any) {
         let newHabit = Habit(name: textName.text ?? "",
                              date: datePicker.date,
@@ -144,7 +148,11 @@ class HabitViewController: UIViewController, UICollectionViewDelegate   {
         store.habits.append(newHabit)
         print(store.habits)
         reloadInputViews()
-        dismiss(animated: true, completion: nil)
+        
+        dismiss(animated: true) { [weak self] in
+            print("")
+            self?.delegate?.reloadCV()
+        }
     }
     
     //для correctVC
@@ -156,7 +164,7 @@ class HabitViewController: UIViewController, UICollectionViewDelegate   {
         if let index = HabitsStore.shared.habits.firstIndex(where: { $0 == self.habit }) {
             HabitsStore.shared.habits[index] = newHabit
         }
-        reloadInputViews()
+       
         dismiss(animated: true, completion: nil)
     }
     
@@ -175,10 +183,12 @@ class HabitViewController: UIViewController, UICollectionViewDelegate   {
             print("Отмена")
         }
         let deleteAction = UIAlertAction(title: "Удалить", style: .destructive) { _ in
-            if let deletHabit = HabitsStore.shared.habits.firstIndex(where: { ($0.name == self.habit.name)}) {
+            if let deletHabit = HabitsStore.shared.habits.firstIndex(where: ({$0.name == self.habit.name})) {
                 HabitsStore.shared.habits.remove(at: deletHabit)
                 print("Удалить")
             }
+            
+            self.dismiss(animated: true, completion: nil)
         }
         alertController.addAction(cancelAction)
         alertController.addAction(deleteAction)
@@ -280,8 +290,7 @@ class HabitViewController: UIViewController, UICollectionViewDelegate   {
             textTimePicker.leadingAnchor.constraint(equalTo: timerHabit.trailingAnchor, constant: 3),
             
             delButtonHabit.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            delButtonHabit.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10)
-            
+            delButtonHabit.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10)            
         ]
         
         NSLayoutConstraint.activate(constains)

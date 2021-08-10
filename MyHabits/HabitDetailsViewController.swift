@@ -39,11 +39,6 @@ class HabitDetailsViewController: UIViewController {
     }()
     
     
-    @IBAction func backButton(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
-        
-    }
-    
     
     @objc func tapCorrect() {
         
@@ -64,6 +59,9 @@ class HabitDetailsViewController: UIViewController {
         view.backgroundColor = .white
         navigationItem.largeTitleDisplayMode = .never
         navigationController?.navigationBar.tintColor = .purple
+        
+        let navBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 44))
+        view.addSubview(navBar)
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Править", style: .plain, target: self, action: #selector(tapCorrect))
         navigationItem.rightBarButtonItem?.tintColor = .purple
@@ -87,8 +85,8 @@ class HabitDetailsViewController: UIViewController {
         let constraints = [
             
             activeLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 12),
-            activeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
-            activeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
+            activeLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 12),
+            activeLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -12),
             
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),

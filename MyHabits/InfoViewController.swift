@@ -49,7 +49,8 @@ class InfoViewController: ViewController {
         
         view.addSubview(scrollView)
         view.backgroundColor = .white
-        title = "Информация"
+        navigationItem.title = "Информация"
+        navigationItem.leftBarButtonItem?.tintColor = .purple
         setupLayout()
     }
     
